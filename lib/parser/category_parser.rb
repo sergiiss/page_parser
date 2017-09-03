@@ -51,6 +51,8 @@ module Parser
       page.xpath(".//div//a[@class='product_img_link']/@href").each do |link|
         @found_links << link.content
       end
+
+      @found_links << ARGV[0] if found_links.size == 0
     end
 
     def create_collection_products
