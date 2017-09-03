@@ -1,5 +1,5 @@
 module Parser
-  class ParserCategory
+  class CategoryParser
     def initialize
       @found_links =                []
       @collection_quantity_pages =  []
@@ -55,7 +55,7 @@ module Parser
 
     def create_collection_products
       found_links.each do |link|
-        parser = ParserPage.new(link)
+        parser = PageParser.new(link)
         @all_products << parser.result
       end
 

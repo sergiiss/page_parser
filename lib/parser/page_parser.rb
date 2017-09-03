@@ -1,5 +1,5 @@
 module Parser
-  class ParserPage
+  class PageParser
     attr_reader :input_link
 
     def initialize(input_link)

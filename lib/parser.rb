@@ -1,5 +1,5 @@
 require 'nokogiri'
 require 'open-uri'
 require 'csv'
-require 'parser/parser_page'
-require 'parser/parser_category'
+require 'parser/page_parser'
+require 'parser/category_parser'
