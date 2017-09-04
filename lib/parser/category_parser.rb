@@ -3,20 +3,19 @@ module Parser
     def initialize
       @found_links =                []
       @collection_quantity_pages =  []
-      @all_products =               []
-      @index =                      1
     end
 
     def print
       get_quantity_pages
       get_all_links_to_products
       create_collection_products
-      write_in_csv
+
+      print_result
     end
 
     private
 
-    attr_reader :page, :found_links, :number_pages, :collection_quantity_pages, :index, :all_products
+    attr_reader :page, :found_links, :number_pages, :collection_quantity_pages, :all_products
 
     def get_page(link)
       @page = Nokogiri::HTML(open("#{link}"))
@@ -36,11 +35,12 @@ module Parser
       if number_pages == 0
         get_links_to_products
       else
+        index = 1
         while index <= number_pages
           get_page("#{ARGV[0]}?p=#{index}")
           get_links_to_products
 
-          @index += 1
+          index += 1
         end
       end
 
@@ -56,22 +56,15 @@ module Parser
     end
 
     def create_collection_products
-      found_links.each do |link|
-        parser = PageParser.new(link)
-        @all_products << parser.result
+      @all_products ||= found_links.map do |link|
+        PageParser.new(link).result
       end
-
-      all_products
     end
 
-    def write_in_csv
-      CSV.open("#{ARGV[1]}.csv", 'wb') do |writer|
-        all_products.each do |data|
-          data.each do |data_inside|
-            writer << ["#{data_inside[0]}", "#{data_inside[1]}", "#{data_inside[2]}"]
-          end
-        end
-      end
+    def print_result
+      printer = Printer.new
+
+      printer.print_in_file(all_products)
     end
   end
 end

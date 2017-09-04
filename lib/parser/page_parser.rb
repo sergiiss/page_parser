@@ -5,10 +5,7 @@ module Parser
     def initialize(input_link)
       @input_link = input_link
 
-      @found_values =      []
-      @index =             1
-      @record_collection = []
-      @collection =        []
+      @all_products_from_page = []
     end
 
     def result
@@ -20,28 +17,29 @@ module Parser
 
     private
 
-    attr_reader :found_values, :index, :values, :quantity_positions, :collection
+    attr_reader :found_values, :values, :quantity_positions, :all_products_from_page
 
     def get_file
       @values = Nokogiri::HTML(open("#{input_link}"))
     end
 
     def get_the_required_values
-      values.xpath(".//div//h1/text()[2]", ".//div//ul//span[@class='attribute_name']", ".//div//ul//span[@class='attribute_price']", ".//div//span[@id='view_full_size']/img/@src" ).each do |link|
-        @found_values << link.content
+      @found_values ||= values.xpath(".//div//h1/text()[2]", ".//div//ul//span[@class='attribute_name']", ".//div//ul//span[@class='attribute_price']", ".//div//span[@id='view_full_size']/img/@src" ).map do |link|
+        link.content
       end
     end
 
     def get_collection_value
       get_quantity_positions
+      index = 1
 
       while index <= quantity_positions
-        @collection << ["#{found_values[0]} - #{found_values[index]}", "#{found_values[index + quantity_positions]}", "#{found_values.last}"]
+        @all_products_from_page << ["#{found_values[0]} - #{found_values[index]}", "#{found_values[index + quantity_positions]}", "#{found_values.last}"]
 
-        @index += 1
+        index += 1
       end
 
-      collection
+      all_products_from_page
     end
 
     def get_quantity_positions

@@ -7,7 +7,7 @@ For start parser:
 
 
 
-# Задание от Profitero:
+# Задание:
 http://www.petsonic.com/es/perros/snacks-y-huesos-perro
 
 По урлу находится категория вебсайта, который занимается продажей товаров для животных.

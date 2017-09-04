@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class TestBrainfuckTranslator < Minitest::Test
+class TestPageParser < Minitest::Test
   def test_single_product_page
     page_parser = Parser::PageParser.new(File.absolute_path("test/page/single_product_page.html"))
     result = page_parser.result
