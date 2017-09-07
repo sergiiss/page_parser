@@ -17,6 +17,9 @@ module Parser
 
     attr_reader :page, :found_links, :number_pages, :collection_quantity_pages, :all_products
 
+    QUANTITY_PAGES_SEARCH = ".//div//div[@id='pagination_bottom']//ul//li[last()-1]/a/span"
+    LINK_PRODUCT_SEARCH = ".//div//a[@class='product_img_link']/@href"
+
     def get_page(link)
       @page = Nokogiri::HTML(open("#{link}"))
     end
@@ -24,7 +27,7 @@ module Parser
     def get_quantity_pages
       get_page(ARGV[0])
 
-      page.xpath(".//div//div[@id='pagination_bottom']//ul//li[last()-1]/a/span").each do |link|
+      page.xpath(QUANTITY_PAGES_SEARCH).each do |link|
         collection_quantity_pages << link.content
       end
 
@@ -48,7 +51,7 @@ module Parser
     end
 
     def get_links_to_products
-      page.xpath(".//div//a[@class='product_img_link']/@href").each do |link|
+      page.xpath(LINK_PRODUCT_SEARCH).each do |link|
         @found_links << link.content
       end
 
