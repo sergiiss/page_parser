@@ -3,6 +3,7 @@ module Parser
     attr_reader :input_link
 
     def initialize(input_link)
+      @config = YAML::load(open(File.absolute_path("../config.yml")))
       @input_link = input_link
 
       @all_products_from_page = []
@@ -17,14 +18,14 @@ module Parser
 
     private
 
-    attr_reader :found_values, :values, :quantity_positions, :all_products_from_page
+    attr_reader :found_values, :values, :quantity_positions, :all_products_from_page, :config
 
     def get_file
       @values = Nokogiri::HTML(open("#{input_link}"))
     end
 
     def get_the_required_values
-      @found_values ||= values.xpath(".//div//h1/text()[2]", ".//div//ul//span[@class='attribute_name']", ".//div//ul//span[@class='attribute_price']", ".//div//span[@id='view_full_size']/img/@src" ).map do |link|
+      @found_values ||= values.xpath(config['product_name'], config['product_weight'], config['product_price'], config['product_image'] ).map do |link|
         link.content
       end
     end

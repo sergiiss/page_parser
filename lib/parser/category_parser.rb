@@ -3,6 +3,7 @@ module Parser
     def initialize
       @found_links =                []
       @collection_quantity_pages =  []
+      @config = YAML::load(open(File.absolute_path("../config.yml")))
     end
 
     def print
@@ -15,10 +16,7 @@ module Parser
 
     private
 
-    attr_reader :page, :found_links, :number_pages, :collection_quantity_pages, :all_products
-
-    QUANTITY_PAGES_SEARCH = ".//div//div[@id='pagination_bottom']//ul//li[last()-1]/a/span"
-    LINK_PRODUCT_SEARCH = ".//div//a[@class='product_img_link']/@href"
+    attr_reader :page, :found_links, :number_pages, :collection_quantity_pages, :all_products, :config
 
     def get_page(link)
       @page = Nokogiri::HTML(open("#{link}"))
@@ -27,7 +25,7 @@ module Parser
     def get_quantity_pages
       get_page(ARGV[0])
 
-      page.xpath(QUANTITY_PAGES_SEARCH).each do |link|
+      page.xpath(config['quantity_pages_search']).each do |link|
         collection_quantity_pages << link.content
       end
 
@@ -51,7 +49,7 @@ module Parser
     end
 
     def get_links_to_products
-      page.xpath(LINK_PRODUCT_SEARCH).each do |link|
+      page.xpath(config['link_product_search']).each do |link|
         @found_links << link.content
       end
 

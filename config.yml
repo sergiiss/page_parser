@@ -1,0 +1,6 @@
+quantity_pages_search: ".//div//div[@id='pagination_bottom']//ul//li[last()-1]/a/span"
+link_product_search: ".//div//a[@class='product_img_link']/@href"
+product_name: ".//div//h1/text()[2]"
+product_weight: ".//div//ul//span[@class='attribute_name']"
+product_price: ".//div//ul//span[@class='attribute_price']"
+product_image: ".//div//span[@id='view_full_size']/img/@src"
