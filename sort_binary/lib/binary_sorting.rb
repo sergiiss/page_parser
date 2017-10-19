@@ -61,3 +61,8 @@ class BinarySorting
     sorted_binary_data.map { |f| f.to_i(2)}
   end
 end
+
+bs = BinarySorting.new
+puts bs.result([2,5,6,7,8])
+puts "sfsdfsdfsdfsdfsd"
+puts bs.result([2,5,6,7,8])

@@ -10,7 +10,7 @@ class TestFindMaxMultiplication < Minitest::Test
   def test_without_digits
     result = find.result('sfsdfdsf')
 
-    assert_equal nil, result
+    assert_nil nil, result
   end
 
   def test_with_digits
@@ -22,6 +22,6 @@ class TestFindMaxMultiplication < Minitest::Test
   def test_without_string
     result = find.result(['as', 23, 1, 'we'])
 
-    assert_equal nil, result
+    assert_nil nil, result
   end
 end
