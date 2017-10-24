@@ -1,26 +1,20 @@
 require 'test_helper'
 
 class TestFindMaxMultiplication < Minitest::Test
-  attr_reader :find
-
-  def setup
-    @find = FindMaxMultiplication.new
-  end
-
   def test_without_digits
-    result = find.result('sfsdfdsf')
+    result = FindMaxMultiplication.new('sfsdfdsf').result
 
     assert_nil nil, result
   end
 
   def test_with_digits
-    result = find.result('sf1234sdsd222234sd345fdfd5522')
+    result = FindMaxMultiplication.new('sf1234sdsd222234sd345fdfd5522').result
 
     assert_equal 100, result
   end
 
   def test_without_string
-    result = find.result(['as', 23, 1, 'we'])
+    result = FindMaxMultiplication.new(['as', 23, 1, 'we']).result
 
     assert_nil nil, result
   end
